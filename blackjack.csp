@@ -1,0 +1,6 @@
+﻿#import "PAT.Lib.HashTable";
+
+var<HashTable> cardPool = new HashTable();
+Q() = P(cardPool);
+P(i) = add1{i.Add(1, 2);} -> Skip [] add2{i.Add(2,3);} -> Skip;
+//cardPool.Add(10, 2);
