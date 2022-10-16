@@ -1,0 +1,27 @@
+﻿var success = false;
+var card[10] = [4,4,4,4,4,4,4,4,4,16];
+var gamer_point[2] = [0,0];
+var flag = 0;
+Draw(i) = pcase{
+    card[0]: draw.i{gamer_point[i]=gamer_point[i]+1;card[0]=card[0]-1;}->Game
+    card[1]: draw.i{gamer_point[i]=gamer_point[i]+2;card[1]=card[1]-1;}->Game
+    card[2]: draw.i{gamer_point[i]=gamer_point[i]+3;card[2]=card[2]-1;}->Game
+    card[3]: draw.i{gamer_point[i]=gamer_point[i]+4;card[3]=card[3]-1;}->Game
+    card[4]: draw.i{gamer_point[i]=gamer_point[i]+5;card[4]=card[4]-1;}->Game
+    card[5]: draw.i{gamer_point[i]=gamer_point[i]+6;card[5]=card[5]-1;}->Game
+    card[6]: draw.i{gamer_point[i]=gamer_point[i]+7;card[6]=card[6]-1;}->Game
+    card[7]: draw.i{gamer_point[i]=gamer_point[i]+8;card[7]=card[7]-1;}->Game
+    card[8]: draw.i{gamer_point[i]=gamer_point[i]+9;card[8]=card[8]-1;}->Game
+    card[9]: draw.i{gamer_point[i]=gamer_point[i]+10;card[9]=card[9]-1;}->Game
+};
+
+
+
+Game = [flag == 0]dealerDraw{flag=1}->Draw(0)[]
+		[flag == 1]playerDraw{flag=2}->Draw(1)[]
+		[flag==2 && gamer_point[0]>gamer_point[1]]updateResult{success=true} ->Skip;
+
+
+    
+#define goal success==true;
+#assert Game reaches goal with prob;     // What are the [min, max] reachabilities here?
