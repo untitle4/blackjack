@@ -25,3 +25,4 @@ Game = [flag == 0]dealerDraw{flag=1}->Draw(0)[]
     
 #define goal success==true;
 #assert Game reaches goal with prob;     // What are the [min, max] reachabilities here?
+//test
