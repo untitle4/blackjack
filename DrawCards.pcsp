@@ -35,8 +35,12 @@ GetInput = UpdateInput;
 PlayerHit(t) = [gamer_point[1]<=t && gamer_hands[1] <5]dealerDraw->Draw(1);PlayerHit(t)
 			[]
 			[gamer_point[1]>10 || gamer_hands[1] ==5]goNext->Skip;
+// TODO: DealerHit
 			
-Game = GetInput;PlayerHit(16);	
+Game16 = GetInput;PlayerHit(16);
+Game17 = GetInput;PlayerHit(17);
+Game18 = GetInput;PlayerHit(18);
+Game19 = GetInput;PlayerHit(19);	
 
 		
 Win = set{flag = 1}->Skip;
@@ -46,8 +50,17 @@ Drawn = set{flag = 0}->Skip;
 
 
 			
-#define goal gamer_point[1]>=16;
-#assert Game reaches goal with prob;
+#define goal16 gamer_point[1]>=16;
+#assert Game16 reaches goal with prob;
+
+#define goal17 gamer_point[1]>=17;
+#assert Game17 reaches goal with prob;
+
+#define goal18 gamer_point[1]>=18;
+#assert Game18 reaches goal with prob;
+
+#define goal19 gamer_point[1]>=19;
+#assert Game19 reaches goal with prob;
 
 
  			
