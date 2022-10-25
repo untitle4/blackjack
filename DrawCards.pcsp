@@ -32,11 +32,11 @@ GetInput = UpdateInput;
 			(dealerDraw->Draw(0));
 			[gamer_point[0]<=21]goNext->Skip[][gamer_point[0]>21]goesWin->Win;
 			
-PlayerHit = [gamer_point[1]<=10 && gamer_hands[1] <5]dealerDraw->Draw(1);PlayerHit
+PlayerHit(t) = [gamer_point[1]<=t && gamer_hands[1] <5]dealerDraw->Draw(1);PlayerHit(t)
 			[]
 			[gamer_point[1]>10 || gamer_hands[1] ==5]goNext->Skip;
 			
-Game = GetInput;PlayerHit;	
+Game = GetInput;PlayerHit(16);	
 
 		
 Win = set{flag = 1}->Skip;
