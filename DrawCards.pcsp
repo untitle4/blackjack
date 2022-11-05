@@ -1,22 +1,22 @@
-﻿var input[3] = [2,5,3];		// input for 2 player's initial hand, 1 dealer's visible hand
+﻿var input[3] = [10,5,10];		// input for 2 player's initial hand, 1 dealer's visible hand
 var card[10] = [4,4,4,4,4,4,4,4,4,16];
 var gamer_point[2] = [0,0]; // gamer[0] for dealer, gamer[1] for player, count for total points
 var gamer_hands[2] = [0,0];	// gamer[0] for dealer, gamer[1] for player, count the number of cards in hand
 var flag = 2;				// to represent win, draw or lose state
-var threshold = 16;
+
 
 // drawing simulation process
 Draw(i) = pcase{
-    card[0]: draw.i{gamer_point[i]=gamer_point[i]+1;card[0]=card[0]-1;}->Skip
-    card[1]: draw.i{gamer_point[i]=gamer_point[i]+2;card[1]=card[1]-1;}->Skip
-    card[2]: draw.i{gamer_point[i]=gamer_point[i]+3;card[2]=card[2]-1;}->Skip
-    card[3]: draw.i{gamer_point[i]=gamer_point[i]+4;card[3]=card[3]-1;}->Skip
-    card[4]: draw.i{gamer_point[i]=gamer_point[i]+5;card[4]=card[4]-1;}->Skip
-    card[5]: draw.i{gamer_point[i]=gamer_point[i]+6;card[5]=card[5]-1;}->Skip
-    card[6]: draw.i{gamer_point[i]=gamer_point[i]+7;card[6]=card[6]-1;}->Skip
-    card[7]: draw.i{gamer_point[i]=gamer_point[i]+8;card[7]=card[7]-1;}->Skip
-    card[8]: draw.i{gamer_point[i]=gamer_point[i]+9;card[8]=card[8]-1;}->Skip
-    card[9]: draw.i{gamer_point[i]=gamer_point[i]+10;card[9]=card[9]-1;}->Skip
+    card[0]: draw.i{gamer_point[i]=gamer_point[i]+1;gamer_hands[i]=gamer_hands[i]+1;card[0]=card[0]-1;}->Skip
+    card[1]: draw.i{gamer_point[i]=gamer_point[i]+2;gamer_hands[i]=gamer_hands[i]+1;card[1]=card[1]-1;}->Skip
+    card[2]: draw.i{gamer_point[i]=gamer_point[i]+3;gamer_hands[i]=gamer_hands[i]+1;card[2]=card[2]-1;}->Skip
+    card[3]: draw.i{gamer_point[i]=gamer_point[i]+4;gamer_hands[i]=gamer_hands[i]+1;card[3]=card[3]-1;}->Skip
+    card[4]: draw.i{gamer_point[i]=gamer_point[i]+5;gamer_hands[i]=gamer_hands[i]+1;card[4]=card[4]-1;}->Skip
+    card[5]: draw.i{gamer_point[i]=gamer_point[i]+6;gamer_hands[i]=gamer_hands[i]+1;card[5]=card[5]-1;}->Skip
+    card[6]: draw.i{gamer_point[i]=gamer_point[i]+7;gamer_hands[i]=gamer_hands[i]+1;card[6]=card[6]-1;}->Skip
+    card[7]: draw.i{gamer_point[i]=gamer_point[i]+8;gamer_hands[i]=gamer_hands[i]+1;card[7]=card[7]-1;}->Skip
+    card[8]: draw.i{gamer_point[i]=gamer_point[i]+9;gamer_hands[i]=gamer_hands[i]+1;card[8]=card[8]-1;}->Skip
+    card[9]: draw.i{gamer_point[i]=gamer_point[i]+10;gamer_hands[i]=gamer_hands[i]+1;card[9]=card[9]-1;}->Skip
 };
 
 // update the arrays and number of cards after initial input
@@ -34,27 +34,31 @@ GetInput = UpdateInput;
 			(dealerDraw->Draw(0));
 			[gamer_point[0]<=21]goNext->Skip[][gamer_point[0]>21]goesWin->Win;
 			
-PlayerHit(t) = [gamer_point[1]<t && gamer_hands[1] <5]playerDraw->Draw(1);PlayerHit(t)  // according to strategy, if total point not reach t player continue drawing
-			[]
-			[gamer_point[1] > 21]goLose->Lose		// if total point exceed 21 player busts and loses
-			[]
-			[gamer_point[1]>=t || gamer_hands[1] ==5]goNext->DealerHit();	// if player's total point reaches t or have 5 cards, dealer draws
+				// if total point exceed 21 player busts and loses
+PlayerHit(t) =	if(gamer_point[1] > 21){playerLose->Lose}
+				// according to strategy, if total point not reach t player continue drawing
+				else if(gamer_point[1]<t && gamer_hands[1] <5){Draw(1);PlayerHit(t)}
+				else{DealerHit};
 
 // dealer must keep drawing until he gets 17 points or busts
-DealerHit() = [gamer_point[0] < 17 && gamer_hands[0] < 5]dealerDraw->Draw(0);DealerHit()
-			[]
-			[gamer_point[0] > 21 || (gamer_point[0] < 17 && gamer_hands[0] == 5)]dealerLose->Win
-			[]
-			[gamer_point[0] >= 17 && gamer_hands[0] == 5]dealerWin->Lose
-			[]
-			[gamer_point[0] >= 17 && gamer_hands[0] < 5]compareResult->Compare();
+DealerHit = if(gamer_point[0] > 21){dealerLose->Win}
+			else if(gamer_point[0] < 17 && gamer_hands[0] < 5){Draw(0);DealerHit}
+			else if(gamer_hands[0] == 5){dealerWin->Lose}
+			else {compareResult->Compare};
+
 			
-Compare() = [gamer_point[0] == gamer_point[1]]goDrawn->Drawn
+Compare = [gamer_point[0] == gamer_point[1]]goDrawn->Drawn
 			[]
 			[gamer_point[0] < gamer_point[1]]goWin->Win
 			[]
 			[gamer_point[0] > gamer_point[1]]goLose->Lose;
 			
+Game10 = GetInput;PlayerHit(10);
+Game11 = GetInput;PlayerHit(11);
+Game12 = GetInput;PlayerHit(12);
+Game13 = GetInput;PlayerHit(13);
+Game14 = GetInput;PlayerHit(14);
+Game15 = GetInput;PlayerHit(15);
 Game16 = GetInput;PlayerHit(16);
 Game17 = GetInput;PlayerHit(17);
 Game18 = GetInput;PlayerHit(18);
@@ -70,8 +74,32 @@ Drawn = set{flag = 0}->Skip;
 #define winning flag == 1;
 #define losing  flag == -1;
 #define drawing flag == 0;
+
+#assert Game10 reaches winning with prob;
+#assert Game10 reaches losing with prob;
+#assert Game10 reaches drawing with prob;
+
+#assert Game11 reaches winning with prob;
+#assert Game11 reaches losing with prob;
+#assert Game11 reaches drawing with prob;
+
+#assert Game12 reaches winning with prob;
+#assert Game12 reaches losing with prob;
+#assert Game12 reaches drawing with prob;
+
+#assert Game13 reaches winning with prob;
+#assert Game13 reaches losing with prob;
+#assert Game13 reaches drawing with prob;
+
+#assert Game14 reaches winning with prob;
+#assert Game14 reaches losing with prob;
+#assert Game14 reaches drawing with prob;
 			
-#define goal16 gamer_point[1]>=16;
+
+#assert Game15 reaches winning with prob;
+#assert Game15 reaches losing with prob;
+#assert Game15 reaches drawing with prob;
+
 #assert Game16 reaches winning with prob;
 #assert Game16 reaches losing with prob;
 #assert Game16 reaches drawing with prob;
@@ -94,6 +122,3 @@ Drawn = set{flag = 0}->Skip;
 #assert Game21 reaches winning with prob;
 #assert Game21 reaches losing with prob;
 #assert Game21 reaches drawing with prob;
-
-    
-    // What are the [min, max] reachabilities here?
