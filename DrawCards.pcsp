@@ -1,4 +1,4 @@
-﻿var input[3] = [10,5,10];		// input for 2 player's initial hand, 1 dealer's visible hand
+﻿var input[3] = [5,10,3];		// input for 2 player's initial hand, 1 dealer's visible hand
 var card[10] = [4,4,4,4,4,4,4,4,4,16];
 var gamer_point[2] = [0,0]; // gamer[0] for dealer, gamer[1] for player, count for total points
 var gamer_hands[2] = [0,0];	// gamer[0] for dealer, gamer[1] for player, count the number of cards in hand
@@ -71,54 +71,43 @@ Lose = set{flag = -1}->Skip;
 Drawn = set{flag = 0}->Skip;
 
 
-#define winning flag == 1;
+#define notlosing flag == 1 || flag == 0;
 #define losing  flag == -1;
 #define drawing flag == 0;
 
-#assert Game10 reaches winning with prob;
+#assert Game10 reaches notlosing with prob;
 #assert Game10 reaches losing with prob;
-#assert Game10 reaches drawing with prob;
 
-#assert Game11 reaches winning with prob;
+#assert Game11 reaches notlosing with prob;
 #assert Game11 reaches losing with prob;
-#assert Game11 reaches drawing with prob;
 
-#assert Game12 reaches winning with prob;
+#assert Game12 reaches notlosing with prob;
 #assert Game12 reaches losing with prob;
-#assert Game12 reaches drawing with prob;
 
-#assert Game13 reaches winning with prob;
+#assert Game13 reaches notlosing with prob;
 #assert Game13 reaches losing with prob;
-#assert Game13 reaches drawing with prob;
 
-#assert Game14 reaches winning with prob;
+#assert Game14 reaches notlosing with prob;
 #assert Game14 reaches losing with prob;
-#assert Game14 reaches drawing with prob;
 			
 
-#assert Game15 reaches winning with prob;
+#assert Game15 reaches notlosing with prob;
 #assert Game15 reaches losing with prob;
-#assert Game15 reaches drawing with prob;
 
-#assert Game16 reaches winning with prob;
+#assert Game16 reaches notlosing with prob;
 #assert Game16 reaches losing with prob;
-#assert Game16 reaches drawing with prob;
 
 #define goal17 gamer_point[1]>=17;
-#assert Game17 reaches winning with prob;
+#assert Game17 reaches notlosing with prob;
 #assert Game17 reaches losing with prob;
-#assert Game17 reaches drawing with prob;
 
 #define goal18 gamer_point[1]>=18;
-#assert Game18 reaches winning with prob;
+#assert Game18 reaches notlosing with prob;
 #assert Game18 reaches losing with prob;
-#assert Game18 reaches drawing with prob;
 
 #define goal19 gamer_point[1]>=19;
-#assert Game19 reaches winning with prob;
+#assert Game19 reaches notlosing with prob;
 #assert Game19 reaches losing with prob;
-#assert Game19 reaches drawing with prob;
 
-#assert Game21 reaches winning with prob;
+#assert Game21 reaches notlosing with prob;
 #assert Game21 reaches losing with prob;
-#assert Game21 reaches drawing with prob;
